@@ -74,6 +74,10 @@ const AdminPage = () => {
   const [lessonDialog, setLessonDialog] = useState<string | null>(null);
   const [lessonForm, setLessonForm] = useState({ title: "", duration: "", is_free: false, video_id: "", sort_order: 0 });
 
+  // Edit lesson dialog
+  const [editLesson, setEditLesson] = useState<any>(null);
+  const [editLessonForm, setEditLessonForm] = useState({ title: "", duration: "", is_free: false, video_id: "" });
+
   const openEditCourse = (course: any) => {
     setEditCourse(course);
     setCourseForm({
@@ -137,6 +141,36 @@ const AdminPage = () => {
       await supabase.from("courses").update({ lesson_count: remaining.length }).eq("id", courseId);
       queryClient.invalidateQueries({ queryKey: ["admin-lessons", "admin-courses"] });
       toast.success("Lesson deleted");
+    }
+  };
+
+  const openEditLesson = (lesson: any) => {
+    setEditLesson(lesson);
+    setEditLessonForm({
+      title: lesson.title,
+      duration: lesson.duration,
+      is_free: lesson.is_free,
+      video_id: lesson.video_id || "",
+    });
+  };
+
+  const saveLesson = async () => {
+    if (!editLesson) return;
+    const { error } = await supabase
+      .from("lessons")
+      .update({
+        title: editLessonForm.title,
+        duration: editLessonForm.duration,
+        is_free: editLessonForm.is_free,
+        video_id: editLessonForm.video_id || null,
+      })
+      .eq("id", editLesson.id);
+    if (error) {
+      toast.error("Failed to update lesson");
+    } else {
+      toast.success("Lesson updated!");
+      queryClient.invalidateQueries({ queryKey: ["admin-lessons"] });
+      setEditLesson(null);
     }
   };
 
@@ -307,14 +341,24 @@ const AdminPage = () => {
                             <span className="text-muted-foreground">{lesson.title}</span>
                             <span className="text-xs text-muted-foreground">({lesson.duration})</span>
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6"
-                            onClick={() => deleteLesson(lesson.id, course.id)}
-                          >
-                            <Trash2 className="h-3 w-3 text-destructive" />
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={() => openEditLesson(lesson)}
+                            >
+                              <Edit3 className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={() => deleteLesson(lesson.id, course.id)}
+                            >
+                              <Trash2 className="h-3 w-3 text-destructive" />
+                            </Button>
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -394,6 +438,39 @@ const AdminPage = () => {
               <Button variant="outline" size="sm" onClick={() => setLessonDialog(null)}>Cancel</Button>
               <Button variant="hero" size="sm" onClick={() => lessonDialog && addLesson(lessonDialog)}>
                 <Plus className="h-3 w-3 mr-1" /> Add
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Lesson Dialog */}
+      <Dialog open={!!editLesson} onOpenChange={() => setEditLesson(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">Edit Lesson</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Title</label>
+              <Input value={editLessonForm.title} onChange={(e) => setEditLessonForm({ ...editLessonForm, title: e.target.value })} />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Duration</label>
+              <Input value={editLessonForm.duration} onChange={(e) => setEditLessonForm({ ...editLessonForm, duration: e.target.value })} placeholder="e.g. 15 min" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">YouTube Video ID</label>
+              <Input value={editLessonForm.video_id} onChange={(e) => setEditLessonForm({ ...editLessonForm, video_id: e.target.value })} placeholder="e.g. dQw4w9WgXcQ" />
+            </div>
+            <div className="flex items-center gap-3">
+              <Switch checked={editLessonForm.is_free} onCheckedChange={(v) => setEditLessonForm({ ...editLessonForm, is_free: v })} />
+              <span className="text-sm">Free lesson</span>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => setEditLesson(null)}>Cancel</Button>
+              <Button variant="hero" size="sm" onClick={saveLesson}>
+                <Save className="h-3 w-3 mr-1" /> Save
               </Button>
             </div>
           </div>
