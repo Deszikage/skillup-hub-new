@@ -58,7 +58,7 @@ const PricingSection = () => {
     }
 
     const handler = (window as any).PaystackPop?.setup({
-      key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Replace with your Paystack test public key
+      key: "pk_test_f99d515276353575b07b31e4a9b4318067851d6e", // Replace with your Paystack test public key
       email: user.email,
       amount: amountInKobo,
       currency: "NGN",
