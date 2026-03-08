@@ -71,6 +71,8 @@ const PracticePage = () => {
   const [filter, setFilter] = useState("All");
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+  const { user } = useAuth();
+  const { saveProgress } = useProgress();
 
   const filtered = filter === "All" ? questions : questions.filter((q) => q.category === filter);
 
@@ -78,6 +80,17 @@ const PracticePage = () => {
     if (revealed[qId]) return;
     setAnswers((prev) => ({ ...prev, [qId]: optIndex }));
     setRevealed((prev) => ({ ...prev, [qId]: true }));
+
+    const q = questions.find((q) => q.id === qId);
+    if (q && user) {
+      const isCorrect = q.correct === optIndex;
+      saveProgress.mutate({
+        itemType: "quiz",
+        itemId: `question-${qId}`,
+        completed: true,
+        score: isCorrect ? 1 : 0,
+      });
+    }
   };
 
   const score = Object.entries(revealed).filter(([id]) => {
