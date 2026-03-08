@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Code2, Menu, X, LogOut, User, ChevronDown, Edit3 } from "lucide-react";
+import { Code2, Menu, X, LogOut, User, ChevronDown, Edit3, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
