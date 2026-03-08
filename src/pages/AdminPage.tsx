@@ -144,6 +144,36 @@ const AdminPage = () => {
     }
   };
 
+  const openEditLesson = (lesson: any) => {
+    setEditLesson(lesson);
+    setEditLessonForm({
+      title: lesson.title,
+      duration: lesson.duration,
+      is_free: lesson.is_free,
+      video_id: lesson.video_id || "",
+    });
+  };
+
+  const saveLesson = async () => {
+    if (!editLesson) return;
+    const { error } = await supabase
+      .from("lessons")
+      .update({
+        title: editLessonForm.title,
+        duration: editLessonForm.duration,
+        is_free: editLessonForm.is_free,
+        video_id: editLessonForm.video_id || null,
+      })
+      .eq("id", editLesson.id);
+    if (error) {
+      toast.error("Failed to update lesson");
+    } else {
+      toast.success("Lesson updated!");
+      queryClient.invalidateQueries({ queryKey: ["admin-lessons"] });
+      setEditLesson(null);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen">
