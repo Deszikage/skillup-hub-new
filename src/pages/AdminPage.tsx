@@ -74,6 +74,10 @@ const AdminPage = () => {
   const [lessonDialog, setLessonDialog] = useState<string | null>(null);
   const [lessonForm, setLessonForm] = useState({ title: "", duration: "", is_free: false, video_id: "", sort_order: 0 });
 
+  // Edit lesson dialog
+  const [editLesson, setEditLesson] = useState<any>(null);
+  const [editLessonForm, setEditLessonForm] = useState({ title: "", duration: "", is_free: false, video_id: "" });
+
   const openEditCourse = (course: any) => {
     setEditCourse(course);
     setCourseForm({
