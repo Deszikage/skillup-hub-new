@@ -11,6 +11,9 @@ import CoursePage from "./pages/CoursePage";
 import PracticePage from "./pages/PracticePage";
 import CertificatePage from "./pages/CertificatePage";
 import AdminPage from "./pages/AdminPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
+import CookiePolicyPage from "./pages/CookiePolicyPage";
 
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
