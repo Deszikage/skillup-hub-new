@@ -66,9 +66,81 @@ const allQuestions: Question[] = [
   { id: 48, category: "Web Dev", question: "What does SPA stand for?", options: ["Single Page Application", "Server Page Application", "Static Page Architecture", "Simple Page App"], correct: 0 },
   { id: 49, category: "Web Dev", question: "What is caching?", options: ["Deleting data", "Storing data for faster access", "Encrypting data", "Compressing files"], correct: 1 },
   { id: 50, category: "Web Dev", question: "What is a WebSocket?", options: ["A CSS property", "Full-duplex communication protocol", "A database query", "A file format"], correct: 1 },
+
+  // Python
+  { id: 51, category: "Python", question: "What keyword is used to define a function in Python?", options: ["function", "func", "def", "define"], correct: 2 },
+  { id: 52, category: "Python", question: "Which data type is immutable in Python?", options: ["list", "dict", "set", "tuple"], correct: 3 },
+  { id: 53, category: "Python", question: "What does 'len()' do?", options: ["Returns the length", "Creates a list", "Loops through items", "Converts to string"], correct: 0 },
+  { id: 54, category: "Python", question: "How do you start a comment in Python?", options: ["//", "/*", "#", "--"], correct: 2 },
+  { id: 55, category: "Python", question: "What is a Python dictionary?", options: ["An ordered list", "A key-value pair collection", "A set of numbers", "A text file"], correct: 1 },
+  { id: 56, category: "Python", question: "Which keyword is used for loops in Python?", options: ["loop", "for", "repeat", "iterate"], correct: 1 },
+  { id: 57, category: "Python", question: "What does 'pip' stand for?", options: ["Python Install Package", "Pip Installs Packages", "Package Installer for Python", "Python Interface Program"], correct: 1 },
+  { id: 58, category: "Python", question: "What is a list comprehension?", options: ["A way to debug", "A concise way to create lists", "A sorting algorithm", "A type of loop"], correct: 1 },
+  { id: 59, category: "Python", question: "Which method adds an item to a list?", options: ["push()", "add()", "append()", "insert_end()"], correct: 2 },
+  { id: 60, category: "Python", question: "What does 'self' refer to in a class?", options: ["The module", "The current instance", "The parent class", "A global variable"], correct: 1 },
+
+  // React
+  { id: 61, category: "React", question: "What is JSX?", options: ["A database query language", "JavaScript XML syntax extension", "A CSS preprocessor", "A testing framework"], correct: 1 },
+  { id: 62, category: "React", question: "What hook is used to manage state?", options: ["useEffect", "useState", "useRef", "useMemo"], correct: 1 },
+  { id: 63, category: "React", question: "What are props in React?", options: ["CSS styles", "Data passed to components", "Database queries", "Event handlers only"], correct: 1 },
+  { id: 64, category: "React", question: "What does useEffect do?", options: ["Manages state", "Handles side effects", "Creates components", "Styles elements"], correct: 1 },
+  { id: 65, category: "React", question: "What is the virtual DOM?", options: ["A real DOM copy", "A lightweight JS representation of the DOM", "A CSS framework", "A browser API"], correct: 1 },
+  { id: 66, category: "React", question: "How do you conditionally render in React?", options: ["if/else in JSX directly", "Ternary operator or &&", "switch statement only", "CSS display property"], correct: 1 },
+  { id: 67, category: "React", question: "What is a React component?", options: ["A CSS class", "A reusable piece of UI", "A database table", "An HTML file"], correct: 1 },
+  { id: 68, category: "React", question: "What does 'key' prop do in lists?", options: ["Styles items", "Helps React identify which items changed", "Sorts the list", "Filters items"], correct: 1 },
+  { id: 69, category: "React", question: "What is React Router used for?", options: ["State management", "Client-side routing", "API calls", "Form validation"], correct: 1 },
+  { id: 70, category: "React", question: "What is a controlled component?", options: ["A locked component", "Form element controlled by React state", "A server component", "A styled component"], correct: 1 },
+
+  // Databases
+  { id: 71, category: "Databases", question: "What does SQL stand for?", options: ["Structured Query Language", "Simple Question Language", "Standard Query Logic", "System Query Language"], correct: 0 },
+  { id: 72, category: "Databases", question: "Which SQL command retrieves data?", options: ["GET", "FETCH", "SELECT", "RETRIEVE"], correct: 2 },
+  { id: 73, category: "Databases", question: "What is a primary key?", options: ["The first column", "A unique identifier for each row", "A foreign table link", "An index type"], correct: 1 },
+  { id: 74, category: "Databases", question: "What is normalization?", options: ["Deleting duplicates", "Organizing data to reduce redundancy", "Encrypting data", "Backing up tables"], correct: 1 },
+  { id: 75, category: "Databases", question: "What is a foreign key?", options: ["A key from another country", "A field linking to another table's primary key", "An encryption key", "A unique constraint"], correct: 1 },
+  { id: 76, category: "Databases", question: "What does CRUD stand for?", options: ["Create, Read, Update, Delete", "Copy, Retrieve, Undo, Drop", "Create, Retrieve, Upload, Delete", "Connect, Read, Update, Disconnect"], correct: 0 },
+  { id: 77, category: "Databases", question: "What is an index used for?", options: ["Styling tables", "Speeding up queries", "Encrypting data", "Creating backups"], correct: 1 },
+  { id: 78, category: "Databases", question: "What is a JOIN?", options: ["Merging two databases", "Combining rows from two or more tables", "Deleting records", "Creating a new table"], correct: 1 },
+  { id: 79, category: "Databases", question: "What is NoSQL?", options: ["No database at all", "Non-relational database", "A SQL version", "A query optimizer"], correct: 1 },
+  { id: 80, category: "Databases", question: "What is a transaction?", options: ["A payment", "A unit of work that is atomic", "A table type", "A query plan"], correct: 1 },
+
+  // Cybersecurity
+  { id: 81, category: "Cybersecurity", question: "What is phishing?", options: ["A fishing app", "A social engineering attack via fake messages", "A network protocol", "A type of firewall"], correct: 1 },
+  { id: 82, category: "Cybersecurity", question: "What does HTTPS provide over HTTP?", options: ["Faster speed", "Encryption via TLS/SSL", "More bandwidth", "Better HTML"], correct: 1 },
+  { id: 83, category: "Cybersecurity", question: "What is SQL injection?", options: ["Adding SQL to a database", "Inserting malicious SQL via user input", "A database optimization", "A backup method"], correct: 1 },
+  { id: 84, category: "Cybersecurity", question: "What is a firewall?", options: ["A physical wall", "A network security system that monitors traffic", "A type of virus", "A coding language"], correct: 1 },
+  { id: 85, category: "Cybersecurity", question: "What is two-factor authentication?", options: ["Using two passwords", "Verifying identity with two different methods", "Logging in twice", "Having two accounts"], correct: 1 },
+  { id: 86, category: "Cybersecurity", question: "What is XSS?", options: ["Extra Style Sheets", "Cross-Site Scripting", "Extended Server Service", "Cross-System Security"], correct: 1 },
+  { id: 87, category: "Cybersecurity", question: "What is encryption?", options: ["Deleting data", "Converting data into an unreadable format", "Compressing files", "Uploading to cloud"], correct: 1 },
+  { id: 88, category: "Cybersecurity", question: "What is a VPN?", options: ["Virtual Private Network", "Very Private Node", "Virtual Public Network", "Verified Protocol Network"], correct: 0 },
+  { id: 89, category: "Cybersecurity", question: "What is a DDoS attack?", options: ["Data Download Service", "Distributed Denial of Service", "Direct Database Override", "Dynamic Domain System"], correct: 1 },
+  { id: 90, category: "Cybersecurity", question: "What is hashing?", options: ["Reversible encryption", "One-way function producing a fixed-size output", "File compression", "Data transfer"], correct: 1 },
+
+  // Git
+  { id: 91, category: "Git", question: "What does 'git init' do?", options: ["Clones a repo", "Initializes a new Git repository", "Pushes changes", "Deletes a repo"], correct: 1 },
+  { id: 92, category: "Git", question: "What does 'git clone' do?", options: ["Creates a branch", "Copies a remote repository locally", "Merges branches", "Deletes files"], correct: 1 },
+  { id: 93, category: "Git", question: "What is a branch in Git?", options: ["A backup", "A parallel version of the codebase", "A commit message", "A remote server"], correct: 1 },
+  { id: 94, category: "Git", question: "What does 'git pull' do?", options: ["Pushes code", "Fetches and merges remote changes", "Deletes a branch", "Creates a tag"], correct: 1 },
+  { id: 95, category: "Git", question: "What is a merge conflict?", options: ["A server error", "When two branches have competing changes", "A deleted file", "A network issue"], correct: 1 },
+  { id: 96, category: "Git", question: "What does 'git status' show?", options: ["Commit history", "The state of the working directory", "Remote URLs", "Branch list only"], correct: 1 },
+  { id: 97, category: "Git", question: "What is a commit?", options: ["A file deletion", "A snapshot of changes", "A branch merge", "A remote push"], correct: 1 },
+  { id: 98, category: "Git", question: "What does 'git stash' do?", options: ["Deletes changes", "Temporarily shelves changes", "Pushes to remote", "Creates a branch"], correct: 1 },
+  { id: 99, category: "Git", question: "What is a pull request?", options: ["Downloading code", "A request to merge changes into a branch", "A git command", "A server restart"], correct: 1 },
+  { id: 100, category: "Git", question: "What does '.gitignore' do?", options: ["Ignores Git", "Specifies files Git should not track", "Deletes files", "Hides the repo"], correct: 1 },
+
+  // DevOps
+  { id: 101, category: "DevOps", question: "What is CI/CD?", options: ["Code Integration / Code Delivery", "Continuous Integration / Continuous Delivery", "Computer Interface / Computer Design", "Central Index / Central Database"], correct: 1 },
+  { id: 102, category: "DevOps", question: "What is Docker?", options: ["A programming language", "A containerization platform", "A database", "A web server"], correct: 1 },
+  { id: 103, category: "DevOps", question: "What is a container?", options: ["A virtual machine", "A lightweight, isolated environment for running apps", "A database table", "A web page"], correct: 1 },
+  { id: 104, category: "DevOps", question: "What is Kubernetes?", options: ["A coding language", "A container orchestration platform", "A database system", "A CI tool"], correct: 1 },
+  { id: 105, category: "DevOps", question: "What is Infrastructure as Code?", options: ["Writing HTML", "Managing infrastructure through code/config files", "Building servers manually", "A CSS framework"], correct: 1 },
+  { id: 106, category: "DevOps", question: "What is a Dockerfile?", options: ["A log file", "A script to build a Docker image", "A configuration file for Git", "A test file"], correct: 1 },
+  { id: 107, category: "DevOps", question: "What does 'scaling' mean in DevOps?", options: ["Writing more code", "Adjusting resources to handle load", "Deleting old servers", "Updating packages"], correct: 1 },
+  { id: 108, category: "DevOps", question: "What is a pipeline in CI/CD?", options: ["A data pipe", "An automated sequence of build/test/deploy steps", "A network cable", "A Docker container"], correct: 1 },
+  { id: 109, category: "DevOps", question: "What is monitoring in DevOps?", options: ["Watching employees", "Observing system health and performance", "Writing tests", "Reviewing code"], correct: 1 },
+  { id: 110, category: "DevOps", question: "What is a load balancer?", options: ["A weight scale", "Distributes network traffic across servers", "A database index", "A caching tool"], correct: 1 },
 ];
 
-export const categories = ["All", "HTML", "CSS", "JavaScript", "Networking", "Web Dev"];
+export const categories = ["All", "HTML", "CSS", "JavaScript", "Networking", "Web Dev", "Python", "React", "Databases", "Cybersecurity", "Git", "DevOps"];
 
 export function getRandomQuestions(category: string, count: number = 10): Question[] {
   const pool = category === "All" ? allQuestions : allQuestions.filter((q) => q.category === category);

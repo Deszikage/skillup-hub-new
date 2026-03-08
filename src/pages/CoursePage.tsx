@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Clock, Play, Lock, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Clock, Play, Lock, CheckCircle2, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -252,6 +252,13 @@ const CoursePage = () => {
                 <p className="text-xs text-muted-foreground mb-3">Get full access with a Pro subscription</p>
                 <Button variant="hero" size="sm" className="w-full">Go Pro — ₦9,500/mo</Button>
               </div>
+
+              <Link to={`/certificate/${courseId}`} className="block mt-3">
+                <div className="p-3 rounded-xl border border-border bg-card hover:border-primary/20 transition-all flex items-center gap-2">
+                  <Award className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-display font-medium">View Certificate</span>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
