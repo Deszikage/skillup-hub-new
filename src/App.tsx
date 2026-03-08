@@ -10,6 +10,7 @@ import CoursesListPage from "./pages/CoursesListPage";
 import CoursePage from "./pages/CoursePage";
 import PracticePage from "./pages/PracticePage";
 import CertificatePage from "./pages/CertificatePage";
+import AdminPage from "./pages/AdminPage";
 
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
