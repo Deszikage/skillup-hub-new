@@ -10,6 +10,7 @@ import CoursesListPage from "./pages/CoursesListPage";
 import CoursePage from "./pages/CoursePage";
 import PracticePage from "./pages/PracticePage";
 import CertificatePage from "./pages/CertificatePage";
+import AdminPage from "./pages/AdminPage";
 
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/course/:courseId" element={<CoursePage />} />
             <Route path="/practice" element={<PracticePage />} />
             <Route path="/certificate/:courseId" element={<CertificatePage />} />
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="*" element={<NotFound />} />
