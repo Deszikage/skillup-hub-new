@@ -341,14 +341,24 @@ const AdminPage = () => {
                             <span className="text-muted-foreground">{lesson.title}</span>
                             <span className="text-xs text-muted-foreground">({lesson.duration})</span>
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6"
-                            onClick={() => deleteLesson(lesson.id, course.id)}
-                          >
-                            <Trash2 className="h-3 w-3 text-destructive" />
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={() => openEditLesson(lesson)}
+                            >
+                              <Edit3 className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6"
+                              onClick={() => deleteLesson(lesson.id, course.id)}
+                            >
+                              <Trash2 className="h-3 w-3 text-destructive" />
+                            </Button>
+                          </div>
                         </div>
                       ))}
                   </div>
