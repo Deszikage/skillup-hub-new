@@ -4,8 +4,6 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Clock, Play, Lock, CheckCircle2, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
 
 const courseData: Record<string, {
   title: string;
