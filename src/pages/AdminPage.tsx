@@ -339,6 +339,9 @@ const AdminPage = () => {
           {/* Courses Tab */}
           {activeTab === "courses" && (
             <div className="space-y-4">
+              <Button variant="hero" size="sm" onClick={() => setShowCreateCourse(true)}>
+                <Plus className="h-3 w-3 mr-1" /> New Course
+              </Button>
               {courses.map((course) => (
                 <div key={course.id} className="rounded-xl border border-border bg-card p-4">
                   <div className="flex items-center justify-between mb-3">
