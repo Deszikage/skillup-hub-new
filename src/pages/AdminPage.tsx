@@ -68,7 +68,11 @@ const AdminPage = () => {
 
   // Course edit dialog
   const [editCourse, setEditCourse] = useState<any>(null);
-  const [courseForm, setCourseForm] = useState({ id: "", title: "", description: "", lesson_count: 0, is_published: true });
+  const [courseForm, setCourseForm] = useState({ id: "", title: "", description: "", lesson_count: 0, is_published: true, icon: "Code2", color: "from-primary to-accent" });
+
+  // Create course dialog
+  const [showCreateCourse, setShowCreateCourse] = useState(false);
+  const [newCourseForm, setNewCourseForm] = useState({ id: "", title: "", description: "", icon: "Code2", color: "from-primary to-accent" });
 
   // Lesson dialog
   const [lessonDialog, setLessonDialog] = useState<string | null>(null);
@@ -86,7 +90,33 @@ const AdminPage = () => {
       description: course.description,
       lesson_count: course.lesson_count,
       is_published: course.is_published,
+      icon: course.icon || "Code2",
+      color: course.color || "from-primary to-accent",
     });
+  };
+
+  const createCourse = async () => {
+    if (!newCourseForm.id || !newCourseForm.title) {
+      toast.error("Course ID and title are required");
+      return;
+    }
+    const { error } = await supabase.from("courses").insert({
+      id: newCourseForm.id,
+      title: newCourseForm.title,
+      description: newCourseForm.description,
+      icon: newCourseForm.icon,
+      color: newCourseForm.color,
+      lesson_count: 0,
+      is_published: false,
+    });
+    if (error) {
+      toast.error("Failed to create course: " + error.message);
+    } else {
+      toast.success("Course created!");
+      queryClient.invalidateQueries({ queryKey: ["admin-courses"] });
+      setShowCreateCourse(false);
+      setNewCourseForm({ id: "", title: "", description: "", icon: "Code2", color: "from-primary to-accent" });
+    }
   };
 
   const saveCourse = async () => {
@@ -309,6 +339,9 @@ const AdminPage = () => {
           {/* Courses Tab */}
           {activeTab === "courses" && (
             <div className="space-y-4">
+              <Button variant="hero" size="sm" onClick={() => setShowCreateCourse(true)}>
+                <Plus className="h-3 w-3 mr-1" /> New Course
+              </Button>
               {courses.map((course) => (
                 <div key={course.id} className="rounded-xl border border-border bg-card p-4">
                   <div className="flex items-center justify-between mb-3">
@@ -471,6 +504,43 @@ const AdminPage = () => {
               <Button variant="outline" size="sm" onClick={() => setEditLesson(null)}>Cancel</Button>
               <Button variant="hero" size="sm" onClick={saveLesson}>
                 <Save className="h-3 w-3 mr-1" /> Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create Course Dialog */}
+      <Dialog open={showCreateCourse} onOpenChange={setShowCreateCourse}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">Create New Course</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Course ID (URL slug, e.g. "machine-learning")</label>
+              <Input value={newCourseForm.id} onChange={(e) => setNewCourseForm({ ...newCourseForm, id: e.target.value.toLowerCase().replace(/\s+/g, "-") })} placeholder="e.g. machine-learning" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Title</label>
+              <Input value={newCourseForm.title} onChange={(e) => setNewCourseForm({ ...newCourseForm, title: e.target.value })} placeholder="e.g. Machine Learning" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Description</label>
+              <Input value={newCourseForm.description} onChange={(e) => setNewCourseForm({ ...newCourseForm, description: e.target.value })} placeholder="Short course description" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Icon (Lucide icon name)</label>
+              <Input value={newCourseForm.icon} onChange={(e) => setNewCourseForm({ ...newCourseForm, icon: e.target.value })} placeholder="e.g. Brain, Cpu, Rocket" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Color gradient</label>
+              <Input value={newCourseForm.color} onChange={(e) => setNewCourseForm({ ...newCourseForm, color: e.target.value })} placeholder="e.g. from-blue-500 to-cyan-500" />
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => setShowCreateCourse(false)}>Cancel</Button>
+              <Button variant="hero" size="sm" onClick={createCourse}>
+                <Plus className="h-3 w-3 mr-1" /> Create
               </Button>
             </div>
           </div>
