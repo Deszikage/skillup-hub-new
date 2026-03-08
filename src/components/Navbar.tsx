@@ -135,6 +135,14 @@ const Navbar = () => {
                   <DropdownMenuItem onClick={() => setProfileOpen(true)}>
                     <Edit3 className="h-3.5 w-3.5 mr-2" /> Edit Profile
                   </DropdownMenuItem>
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => navigate("/admin")}>
+                        <Shield className="h-3.5 w-3.5 mr-2" /> Admin Panel
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut}>
                     <LogOut className="h-3.5 w-3.5 mr-2" /> Sign Out
