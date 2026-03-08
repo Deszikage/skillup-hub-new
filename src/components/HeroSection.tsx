@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
@@ -29,12 +30,16 @@ const HeroSection = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button variant="hero" size="lg" className="text-base px-8">
-            Start Learning Free <ArrowRight className="ml-1 h-4 w-4" />
-          </Button>
-          <Button variant="hero-outline" size="lg" className="text-base px-8">
-            <Play className="mr-1 h-4 w-4" /> Watch Demo
-          </Button>
+          <Link to="/courses">
+            <Button variant="hero" size="lg" className="text-base px-8">
+              Start Learning Free <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </Link>
+          <Link to="/course/html-css">
+            <Button variant="hero-outline" size="lg" className="text-base px-8">
+              <Play className="mr-1 h-4 w-4" /> Watch Demo
+            </Button>
+          </Link>
         </div>
 
         <div className="flex items-center justify-center gap-8 pt-8 text-sm text-muted-foreground">
