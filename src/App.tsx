@@ -42,7 +42,7 @@ const App = () => (
             <Route path="/courses" element={<CoursesListPage />} />
             <Route path="/course/:courseId" element={<CoursePage />} />
             <Route path="/practice" element={<PracticePage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
+            {/* Dashboard removed — profile is in navbar */}
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="*" element={<NotFound />} />
