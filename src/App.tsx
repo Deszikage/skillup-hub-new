@@ -9,7 +9,7 @@ import Index from "./pages/Index";
 import CoursesListPage from "./pages/CoursesListPage";
 import CoursePage from "./pages/CoursePage";
 import PracticePage from "./pages/PracticePage";
-import DashboardPage from "./pages/DashboardPage";
+
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotFound from "./pages/NotFound";
