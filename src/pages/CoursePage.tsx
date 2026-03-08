@@ -64,6 +64,85 @@ const courseData: Record<string, {
       { title: "Deployment", duration: "18 min", free: false },
     ],
   },
+  python: {
+    title: "Python Basics",
+    description: "Learn Python from scratch — build real projects along the way.",
+    lessons: [
+      { title: "Why Python?", duration: "8 min", free: true, videoId: "x7X9w_GIm1s" },
+      { title: "Variables & Data Types", duration: "14 min", free: true, videoId: "cQT33yu9pY8" },
+      { title: "Control Flow", duration: "16 min", free: true, videoId: "Zp5MuPOtsSY" },
+      { title: "Functions", duration: "18 min", free: false },
+      { title: "Lists & Dictionaries", duration: "20 min", free: false },
+      { title: "File I/O", duration: "15 min", free: false },
+      { title: "Object-Oriented Programming", duration: "25 min", free: false },
+      { title: "Modules & Packages", duration: "14 min", free: false },
+    ],
+  },
+  react: {
+    title: "React & Frontend",
+    description: "Build modern user interfaces with React.",
+    lessons: [
+      { title: "What is React?", duration: "10 min", free: true, videoId: "Tn6-PIqc4UM" },
+      { title: "Components & JSX", duration: "15 min", free: true, videoId: "m7OWXtbiXX8" },
+      { title: "Props & State", duration: "18 min", free: true, videoId: "4ORZ1GmjaMc" },
+      { title: "Hooks Deep Dive", duration: "22 min", free: false },
+      { title: "Routing with React Router", duration: "18 min", free: false },
+      { title: "State Management", duration: "20 min", free: false },
+      { title: "API Integration", duration: "22 min", free: false },
+      { title: "Testing React Apps", duration: "16 min", free: false },
+    ],
+  },
+  databases: {
+    title: "Database Fundamentals",
+    description: "Master SQL and database design concepts.",
+    lessons: [
+      { title: "What is a Database?", duration: "10 min", free: true, videoId: "HXV3zeQKqGY" },
+      { title: "SQL Basics", duration: "16 min", free: true, videoId: "27axs9dO7AE" },
+      { title: "Tables & Relationships", duration: "18 min", free: true, videoId: "QpdhBUYk7Kk" },
+      { title: "Joins & Queries", duration: "22 min", free: false },
+      { title: "Normalization", duration: "18 min", free: false },
+      { title: "Indexing & Performance", duration: "20 min", free: false },
+      { title: "NoSQL Overview", duration: "16 min", free: false },
+    ],
+  },
+  cybersecurity: {
+    title: "Cybersecurity Basics",
+    description: "Learn how to secure applications and understand common threats.",
+    lessons: [
+      { title: "Intro to Cybersecurity", duration: "10 min", free: true, videoId: "inWWhr5tnEA" },
+      { title: "Common Vulnerabilities", duration: "15 min", free: true, videoId: "IBeqQo9jQcs" },
+      { title: "Encryption Basics", duration: "14 min", free: true, videoId: "AQDCe585Lnc" },
+      { title: "Authentication Security", duration: "18 min", free: false },
+      { title: "Web Application Security", duration: "22 min", free: false },
+      { title: "Network Security", duration: "20 min", free: false },
+      { title: "Security Best Practices", duration: "16 min", free: false },
+    ],
+  },
+  git: {
+    title: "Git & Version Control",
+    description: "Master Git for collaborative development.",
+    lessons: [
+      { title: "What is Version Control?", duration: "8 min", free: true, videoId: "2ReR1YJrNOM" },
+      { title: "Git Basics", duration: "14 min", free: true, videoId: "HVsySz-h9r4" },
+      { title: "Branching & Merging", duration: "16 min", free: true, videoId: "Q1kHG842HoI" },
+      { title: "Pull Requests", duration: "15 min", free: false },
+      { title: "Rebasing", duration: "18 min", free: false },
+      { title: "Git Workflows", duration: "20 min", free: false },
+    ],
+  },
+  devops: {
+    title: "DevOps & CI/CD",
+    description: "Automate deployments and manage infrastructure.",
+    lessons: [
+      { title: "What is DevOps?", duration: "10 min", free: true, videoId: "Xrgk023l4lI" },
+      { title: "Docker Basics", duration: "18 min", free: true, videoId: "pg19Z8LL06w" },
+      { title: "CI/CD Pipelines", duration: "16 min", free: true, videoId: "scEDHsr3APg" },
+      { title: "GitHub Actions", duration: "20 min", free: false },
+      { title: "Cloud Hosting", duration: "22 min", free: false },
+      { title: "Monitoring & Logging", duration: "18 min", free: false },
+      { title: "Infrastructure as Code", duration: "20 min", free: false },
+    ],
+  },
 };
 
 const CoursePage = () => {
@@ -100,7 +179,7 @@ const CoursePage = () => {
                 <div className="rounded-xl overflow-hidden border border-border aspect-video">
                   <iframe
                     className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${currentLesson.videoId}`}
+                    src={`https://www.youtube.com/embed/${currentLesson.videoId}?rel=0&modestbranding=1`}
                     title={currentLesson.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -171,7 +250,7 @@ const CoursePage = () => {
               <div className="mt-6 p-4 rounded-xl border border-primary/20 bg-primary/5">
                 <p className="font-display text-sm font-bold mb-1">Unlock all lessons</p>
                 <p className="text-xs text-muted-foreground mb-3">Get full access with a Pro subscription</p>
-                <Button variant="hero" size="sm" className="w-full">Go Pro — $19/mo</Button>
+                <Button variant="hero" size="sm" className="w-full">Go Pro — ₦9,500/mo</Button>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Code, Globe, Layout, Wifi } from "lucide-react";
+import { ArrowRight, Code, Globe, Layout, Wifi, Terminal, Layers, Database, Shield, GitBranch, Server } from "lucide-react";
 
 const courses = [
   {
@@ -42,6 +42,66 @@ const courses = [
     color: "text-accent",
     borderColor: "border-accent/20 hover:border-accent/40",
   },
+  {
+    id: "python",
+    title: "Python Basics",
+    description: "Learn Python from scratch — variables, loops, functions, OOP, and build real command-line projects.",
+    icon: Terminal,
+    lessons: 20,
+    level: "Beginner",
+    color: "text-primary",
+    borderColor: "border-primary/20 hover:border-primary/40",
+  },
+  {
+    id: "react",
+    title: "React & Frontend",
+    description: "Build modern UIs with React — components, hooks, state management, routing, and API integration.",
+    icon: Layers,
+    lessons: 22,
+    level: "Intermediate",
+    color: "text-warning",
+    borderColor: "border-warning/20 hover:border-warning/40",
+  },
+  {
+    id: "databases",
+    title: "Database Fundamentals",
+    description: "Master SQL, database design, normalization, indexing and work with PostgreSQL and NoSQL databases.",
+    icon: Database,
+    lessons: 16,
+    level: "Intermediate",
+    color: "text-success",
+    borderColor: "border-success/20 hover:border-success/40",
+  },
+  {
+    id: "cybersecurity",
+    title: "Cybersecurity Basics",
+    description: "Learn ethical hacking fundamentals, common vulnerabilities, encryption, and how to secure applications.",
+    icon: Shield,
+    lessons: 14,
+    level: "Intermediate",
+    color: "text-accent",
+    borderColor: "border-accent/20 hover:border-accent/40",
+  },
+  {
+    id: "git",
+    title: "Git & Version Control",
+    description: "Master Git workflows — branches, merges, rebases, pull requests, and collaborative development.",
+    icon: GitBranch,
+    lessons: 12,
+    level: "Beginner",
+    color: "text-primary",
+    borderColor: "border-primary/20 hover:border-primary/40",
+  },
+  {
+    id: "devops",
+    title: "DevOps & CI/CD",
+    description: "Automate deployments with Docker, GitHub Actions, CI/CD pipelines, cloud hosting and monitoring.",
+    icon: Server,
+    lessons: 16,
+    level: "Advanced",
+    color: "text-warning",
+    borderColor: "border-warning/20 hover:border-warning/40",
+  },
 ];
 
 const CoursesSection = () => {
@@ -57,7 +117,7 @@ const CoursesSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {courses.map((course) => (
             <Link
               key={course.id}
