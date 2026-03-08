@@ -49,6 +49,9 @@ const App = () => (
             <Route path="/practice" element={<PracticePage />} />
             <Route path="/certificate/:courseId" element={<CertificatePage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/cookies" element={<CookiePolicyPage />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="*" element={<NotFound />} />
