@@ -1,0 +1,168 @@
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { useState } from "react";
+import { CheckCircle2, XCircle, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+interface Question {
+  id: number;
+  category: string;
+  question: string;
+  options: string[];
+  correct: number;
+}
+
+const questions: Question[] = [
+  {
+    id: 1, category: "HTML",
+    question: "What does HTML stand for?",
+    options: ["Hyper Text Markup Language", "High Tech Machine Language", "Hyper Transfer Markup Language", "Home Tool Markup Language"],
+    correct: 0,
+  },
+  {
+    id: 2, category: "CSS",
+    question: "Which CSS property is used to change the text color?",
+    options: ["font-color", "text-color", "color", "foreground"],
+    correct: 2,
+  },
+  {
+    id: 3, category: "JavaScript",
+    question: "Which keyword declares a block-scoped variable in JavaScript?",
+    options: ["var", "let", "define", "dim"],
+    correct: 1,
+  },
+  {
+    id: 4, category: "Networking",
+    question: "What port does HTTPS use by default?",
+    options: ["80", "8080", "443", "21"],
+    correct: 2,
+  },
+  {
+    id: 5, category: "JavaScript",
+    question: "What does '===' check in JavaScript?",
+    options: ["Value only", "Type only", "Value and type", "Reference"],
+    correct: 2,
+  },
+  {
+    id: 6, category: "HTML",
+    question: "Which tag is used for the largest heading?",
+    options: ["<heading>", "<h6>", "<h1>", "<head>"],
+    correct: 2,
+  },
+  {
+    id: 7, category: "Networking",
+    question: "What does DNS stand for?",
+    options: ["Data Network System", "Domain Name System", "Digital Network Service", "Domain Network Server"],
+    correct: 1,
+  },
+  {
+    id: 8, category: "CSS",
+    question: "Which display value makes an element a flex container?",
+    options: ["display: block", "display: flex", "display: grid", "display: inline"],
+    correct: 1,
+  },
+];
+
+const categories = ["All", "HTML", "CSS", "JavaScript", "Networking"];
+
+const PracticePage = () => {
+  const [filter, setFilter] = useState("All");
+  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+
+  const filtered = filter === "All" ? questions : questions.filter((q) => q.category === filter);
+
+  const handleAnswer = (qId: number, optIndex: number) => {
+    if (revealed[qId]) return;
+    setAnswers((prev) => ({ ...prev, [qId]: optIndex }));
+    setRevealed((prev) => ({ ...prev, [qId]: true }));
+  };
+
+  const score = Object.entries(revealed).filter(([id]) => {
+    const q = questions.find((q) => q.id === Number(id));
+    return q && answers[q.id] === q.correct;
+  }).length;
+
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      <div className="pt-20 pb-12">
+        <div className="container max-w-3xl">
+          <h1 className="font-display text-3xl md:text-4xl font-bold mb-2">
+            Practice <span className="gradient-text">Questions</span>
+          </h1>
+          <p className="text-muted-foreground mb-8">Test your knowledge across all topics.</p>
+
+          {Object.keys(revealed).length > 0 && (
+            <div className="mb-6 p-4 rounded-xl border border-primary/20 bg-primary/5 flex items-center justify-between">
+              <span className="font-display text-sm">
+                Score: <span className="text-primary font-bold">{score}</span> / {Object.keys(revealed).length}
+              </span>
+              <Button variant="ghost" size="sm" onClick={() => { setAnswers({}); setRevealed({}); }}>
+                Reset
+              </Button>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2 mb-8">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilter(cat)}
+                className={`px-4 py-1.5 rounded-full text-xs font-display transition-all ${
+                  filter === cat
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="space-y-6">
+            {filtered.map((q) => (
+              <div key={q.id} className="rounded-xl border border-border bg-card p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-display bg-secondary px-2 py-0.5 rounded-full text-muted-foreground">
+                    {q.category}
+                  </span>
+                </div>
+                <h3 className="font-display font-bold mb-4">{q.question}</h3>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {q.options.map((opt, i) => {
+                    const isRevealed = revealed[q.id];
+                    const isSelected = answers[q.id] === i;
+                    const isCorrect = q.correct === i;
+
+                    let classes = "text-left w-full rounded-lg border p-3 text-sm transition-all ";
+                    if (isRevealed) {
+                      if (isCorrect) classes += "border-success/40 bg-success/10 text-foreground";
+                      else if (isSelected) classes += "border-destructive/40 bg-destructive/10 text-foreground";
+                      else classes += "border-border text-muted-foreground";
+                    } else {
+                      classes += "border-border hover:border-primary/30 text-muted-foreground hover:text-foreground cursor-pointer";
+                    }
+
+                    return (
+                      <button key={i} onClick={() => handleAnswer(q.id, i)} className={classes}>
+                        <span className="flex items-center gap-2">
+                          {isRevealed && isCorrect && <CheckCircle2 className="h-4 w-4 text-success flex-shrink-0" />}
+                          {isRevealed && isSelected && !isCorrect && <XCircle className="h-4 w-4 text-destructive flex-shrink-0" />}
+                          {opt}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default PracticePage;
