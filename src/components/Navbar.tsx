@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Code2, Menu, X, LogOut, User } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Code2, Menu, X, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,6 +7,18 @@ import { useAuth } from "@/contexts/AuthContext";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handlePricingClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/#pricing");
+    }
+    setOpen(false);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -19,22 +31,27 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
+          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Home
+          </Link>
           <Link to="/courses" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Courses
           </Link>
           <Link to="/practice" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Practice
           </Link>
-          <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <a href="/#pricing" onClick={handlePricingClick} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Pricing
           </a>
           {user ? (
             <div className="flex items-center gap-3">
-              <span className="text-xs text-muted-foreground flex items-center gap-1">
-                <User className="h-3.5 w-3.5" />
-                {user.email}
-              </span>
-              <Button variant="outline" size="sm" onClick={signOut}>
+              <Link to="/dashboard">
+                <Button variant="outline" size="sm">
+                  <LayoutDashboard className="h-3.5 w-3.5 mr-1" />
+                  Dashboard
+                </Button>
+              </Link>
+              <Button variant="ghost" size="sm" onClick={signOut}>
                 <LogOut className="h-3.5 w-3.5 mr-1" />
                 Sign Out
               </Button>
@@ -53,14 +70,23 @@ const Navbar = () => {
 
       {open && (
         <div className="md:hidden border-t border-border bg-background p-4 space-y-3">
+          <Link to="/" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Home</Link>
           <Link to="/courses" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Courses</Link>
           <Link to="/practice" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Practice</Link>
-          <a href="#pricing" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Pricing</a>
+          <a href="/#pricing" onClick={handlePricingClick} className="block text-sm text-muted-foreground hover:text-foreground">Pricing</a>
           {user ? (
-            <Button variant="outline" size="sm" className="w-full" onClick={() => { signOut(); setOpen(false); }}>
-              <LogOut className="h-3.5 w-3.5 mr-1" />
-              Sign Out
-            </Button>
+            <>
+              <Link to="/dashboard" onClick={() => setOpen(false)}>
+                <Button variant="outline" size="sm" className="w-full mb-2">
+                  <LayoutDashboard className="h-3.5 w-3.5 mr-1" />
+                  Dashboard
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm" className="w-full" onClick={() => { signOut(); setOpen(false); }}>
+                <LogOut className="h-3.5 w-3.5 mr-1" />
+                Sign Out
+              </Button>
+            </>
           ) : (
             <Link to="/auth" onClick={() => setOpen(false)}>
               <Button variant="hero" size="sm" className="w-full">Get Started Free</Button>
