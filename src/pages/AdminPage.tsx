@@ -68,7 +68,11 @@ const AdminPage = () => {
 
   // Course edit dialog
   const [editCourse, setEditCourse] = useState<any>(null);
-  const [courseForm, setCourseForm] = useState({ id: "", title: "", description: "", lesson_count: 0, is_published: true });
+  const [courseForm, setCourseForm] = useState({ id: "", title: "", description: "", lesson_count: 0, is_published: true, icon: "Code2", color: "from-primary to-accent" });
+
+  // Create course dialog
+  const [showCreateCourse, setShowCreateCourse] = useState(false);
+  const [newCourseForm, setNewCourseForm] = useState({ id: "", title: "", description: "", icon: "Code2", color: "from-primary to-accent" });
 
   // Lesson dialog
   const [lessonDialog, setLessonDialog] = useState<string | null>(null);
