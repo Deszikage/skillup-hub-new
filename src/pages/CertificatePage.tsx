@@ -2,33 +2,35 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useParams, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/hooks/useSubscription";
 import { useProgress } from "@/hooks/useProgress";
 import { Award, Download, Lock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-
-const courseInfo: Record<string, { title: string; lessonCount: number }> = {
-  "html-css": { title: "HTML & CSS", lessonCount: 8 },
-  javascript: { title: "JavaScript", lessonCount: 8 },
-  networking: { title: "Networking", lessonCount: 7 },
-  "web-development": { title: "Full-Stack Web Dev", lessonCount: 7 },
-  python: { title: "Python Basics", lessonCount: 8 },
-  react: { title: "React & Frontend", lessonCount: 8 },
-  databases: { title: "Database Fundamentals", lessonCount: 7 },
-  cybersecurity: { title: "Cybersecurity Basics", lessonCount: 7 },
-  git: { title: "Git & Version Control", lessonCount: 6 },
-  devops: { title: "DevOps & CI/CD", lessonCount: 7 },
-};
+import { useQuery } from "@tanstack/react-query";
 
 const CertificatePage = () => {
   const { courseId } = useParams();
   const { user } = useAuth();
+  const { isPro } = useSubscription();
   const { progress } = useProgress();
   const certRef = useRef<HTMLDivElement>(null);
   const [profile, setProfile] = useState<{ display_name: string | null }>({ display_name: null });
 
-  const course = courseInfo[courseId || ""];
+  const { data: course } = useQuery({
+    queryKey: ["course", courseId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("courses")
+        .select("*")
+        .eq("id", courseId!)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!courseId,
+  });
 
   useEffect(() => {
     if (!user) return;
@@ -47,22 +49,17 @@ const CertificatePage = () => {
       <div className="min-h-screen">
         <Navbar />
         <div className="pt-20 pb-12 container text-center">
-          <p className="text-muted-foreground">Course not found.</p>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
         <Footer />
       </div>
     );
   }
 
-  // Check completion: user must have completed all lessons for this course
   const completedLessons = progress.filter(
     (p) => p.item_type === "lesson" && p.item_id.startsWith(`${courseId}-lesson-`) && p.completed
   ).length;
-  const isCompleted = completedLessons >= course.lessonCount;
-
-  // For now, Pro check is simplified — in production this would check a subscriptions table
-  // We'll show a message that certificates require Pro
-  const isPro = false; // Will be true when Paystack subscription is verified
+  const isCompleted = completedLessons >= course.lesson_count;
 
   const studentName = profile.display_name || user?.email || "Student";
   const today = new Date().toLocaleDateString("en-US", {
@@ -119,7 +116,7 @@ const CertificatePage = () => {
                   <div>
                     <p className="font-display font-bold text-sm">Course Not Yet Completed</p>
                     <p className="text-xs text-muted-foreground">
-                      You've completed {completedLessons} of {course.lessonCount} lessons.
+                      You've completed {completedLessons} of {course.lesson_count} lessons.
                       Finish all lessons to unlock your certificate.
                     </p>
                   </div>
@@ -161,7 +158,6 @@ const CertificatePage = () => {
             }`}
             style={{ aspectRatio: "1.414 / 1", maxWidth: "800px" }}
           >
-            {/* Decorative corners */}
             <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-primary/40 rounded-tl-lg" />
             <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-primary/40 rounded-tr-lg" />
             <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-primary/40 rounded-bl-lg" />
@@ -169,31 +165,24 @@ const CertificatePage = () => {
 
             <div className="flex flex-col items-center justify-center h-full text-center space-y-4 md:space-y-6">
               <Award className="h-14 w-14 text-primary" />
-
               <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-display">
                 Certificate of Completion
               </p>
-
               <h2 className="font-display text-lg md:text-2xl font-bold text-foreground">
                 This certifies that
               </h2>
-
               <p className="font-display text-2xl md:text-4xl font-bold text-primary border-b-2 border-primary/20 pb-2 px-8">
                 {studentName}
               </p>
-
               <p className="text-sm md:text-base text-muted-foreground max-w-md">
                 has successfully completed all lessons in the
               </p>
-
               <p className="font-display text-xl md:text-2xl font-bold text-foreground">
                 {course.title}
               </p>
-
               <p className="text-sm md:text-base text-muted-foreground">
                 course on CodeForge
               </p>
-
               <div className="pt-4 md:pt-8 flex items-center gap-8 md:gap-16">
                 <div className="text-center">
                   <div className="w-32 border-t border-muted-foreground/30 mb-1" />
@@ -207,7 +196,6 @@ const CertificatePage = () => {
             </div>
           </div>
 
-          {/* Watermark for non-pro */}
           {(!isCompleted || !isPro) && (
             <div className="print:hidden text-center mt-4">
               <p className="text-xs text-muted-foreground italic">

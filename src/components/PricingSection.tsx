@@ -1,8 +1,11 @@
 import { Check, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSubscription } from "@/hooks/useSubscription";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 
 const plans = [
   {
@@ -11,7 +14,7 @@ const plans = [
     period: "forever",
     description: "Get started with the basics",
     features: [
-      "5 free lessons per course",
+      "3 free lessons per course",
       "Basic practice questions",
       "Community forum access",
       "Progress tracking",
@@ -38,13 +41,15 @@ const plans = [
     variant: "hero" as const,
     popular: true,
     paystack: true,
-    amountInKobo: 950000, // ₦9,500 in kobo
+    amountInKobo: 950000,
   },
 ];
 
 const PricingSection = () => {
   const { user } = useAuth();
+  const { isPro } = useSubscription();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const handlePaystack = (amountInKobo: number) => {
     if (!user) {
@@ -57,17 +62,43 @@ const PricingSection = () => {
       return;
     }
 
+    if (isPro) {
+      toast({ title: "Already Pro! 🎉", description: "You already have an active Pro subscription." });
+      return;
+    }
+
     const handler = (window as any).PaystackPop?.setup({
-      key: "pk_test_f99d515276353575b07b31e4a9b4318067851d6e", // Replace with your Paystack test public key
+      key: "pk_test_f99d515276353575b07b31e4a9b4318067851d6e",
       email: user.email,
       amount: amountInKobo,
       currency: "NGN",
       ref: `cf_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
-      callback: (response: any) => {
-        toast({
-          title: "Payment Successful! 🎉",
-          description: `Transaction reference: ${response.reference}`,
+      callback: async (response: any) => {
+        // Save subscription to database
+        const { error } = await supabase.from("subscriptions").insert({
+          user_id: user.id,
+          status: "active",
+          plan: "pro",
+          paystack_reference: response.reference,
+          amount: amountInKobo,
+          currency: "NGN",
         });
+
+        if (error) {
+          console.error("Failed to save subscription:", error);
+          toast({
+            title: "Payment received",
+            description: "Payment was successful but there was an issue activating your subscription. Please contact support.",
+            variant: "destructive",
+          });
+        } else {
+          // Invalidate subscription cache so Pro status updates everywhere
+          queryClient.invalidateQueries({ queryKey: ["subscription-status"] });
+          toast({
+            title: "Welcome to Pro! 🎉",
+            description: "All courses and features are now unlocked.",
+          });
+        }
       },
       onClose: () => {
         toast({
@@ -111,7 +142,7 @@ const PricingSection = () => {
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground text-xs font-display font-bold px-4 py-1 rounded-full flex items-center gap-1">
-                    <Zap className="h-3 w-3" /> Most Popular
+                    <Zap className="h-3 w-3" /> {isPro ? "Active" : "Most Popular"}
                   </span>
                 </div>
               )}
@@ -139,8 +170,9 @@ const PricingSection = () => {
                   variant={plan.variant}
                   className="w-full"
                   onClick={() => handlePaystack((plan as any).amountInKobo)}
+                  disabled={isPro}
                 >
-                  {plan.cta}
+                  {isPro ? "✓ Subscribed" : plan.cta}
                 </Button>
               ) : (
                 <Button
