@@ -1,10 +1,13 @@
-import { Check } from "lucide-react";
+import { Check, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
 
 const plans = [
   {
     name: "Free",
-    price: "$0",
+    price: "₦0",
     period: "forever",
     description: "Get started with the basics",
     features: [
@@ -16,12 +19,13 @@ const plans = [
     cta: "Start Free",
     variant: "hero-outline" as const,
     popular: false,
+    paystack: false,
   },
   {
     name: "Pro",
-    price: "$19",
+    price: "₦9,500",
     period: "/month",
-    description: "Unlock everything",
+    description: "Unlock everything & accelerate your learning",
     features: [
       "All courses & lessons",
       "200+ practice challenges",
@@ -33,26 +37,57 @@ const plans = [
     cta: "Go Pro",
     variant: "hero" as const,
     popular: true,
-  },
-  {
-    name: "Team",
-    price: "$49",
-    period: "/month",
-    description: "For teams up to 10",
-    features: [
-      "Everything in Pro",
-      "Team dashboard",
-      "Admin controls",
-      "Custom learning paths",
-      "Analytics & reporting",
-    ],
-    cta: "Contact Us",
-    variant: "hero-outline" as const,
-    popular: false,
+    paystack: true,
+    amountInKobo: 950000, // ₦9,500 in kobo
   },
 ];
 
 const PricingSection = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handlePaystack = (amountInKobo: number) => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in or create an account to subscribe.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
+    const handler = (window as any).PaystackPop?.setup({
+      key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Replace with your Paystack test public key
+      email: user.email,
+      amount: amountInKobo,
+      currency: "NGN",
+      ref: `cf_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
+      callback: (response: any) => {
+        toast({
+          title: "Payment Successful! 🎉",
+          description: `Transaction reference: ${response.reference}`,
+        });
+      },
+      onClose: () => {
+        toast({
+          title: "Payment cancelled",
+          description: "You can subscribe anytime.",
+        });
+      },
+    });
+
+    if (handler) {
+      handler.openIframe();
+    } else {
+      toast({
+        title: "Payment unavailable",
+        description: "Paystack is loading, please try again in a moment.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <section id="pricing" className="py-24 bg-muted/30">
       <div className="container">
@@ -65,18 +100,18 @@ const PricingSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
           {plans.map((plan) => (
             <div
               key={plan.name}
               className={`relative rounded-xl border bg-card p-8 transition-all duration-300 card-hover ${
-                plan.popular ? "border-primary/40 box-glow" : "border-border"
+                plan.popular ? "border-primary/40 box-glow scale-[1.02]" : "border-border"
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground text-xs font-display font-bold px-4 py-1 rounded-full">
-                    Most Popular
+                  <span className="bg-gradient-to-r from-primary to-accent text-primary-foreground text-xs font-display font-bold px-4 py-1 rounded-full flex items-center gap-1">
+                    <Zap className="h-3 w-3" /> Most Popular
                   </span>
                 </div>
               )}
@@ -99,9 +134,23 @@ const PricingSection = () => {
                 ))}
               </ul>
 
-              <Button variant={plan.variant} className="w-full">
-                {plan.cta}
-              </Button>
+              {plan.paystack ? (
+                <Button
+                  variant={plan.variant}
+                  className="w-full"
+                  onClick={() => handlePaystack((plan as any).amountInKobo)}
+                >
+                  {plan.cta}
+                </Button>
+              ) : (
+                <Button
+                  variant={plan.variant}
+                  className="w-full"
+                  onClick={() => navigate(user ? "/courses" : "/auth")}
+                >
+                  {plan.cta}
+                </Button>
+              )}
             </div>
           ))}
         </div>
