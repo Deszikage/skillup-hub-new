@@ -509,6 +509,43 @@ const AdminPage = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Create Course Dialog */}
+      <Dialog open={showCreateCourse} onOpenChange={setShowCreateCourse}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">Create New Course</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Course ID (URL slug, e.g. "machine-learning")</label>
+              <Input value={newCourseForm.id} onChange={(e) => setNewCourseForm({ ...newCourseForm, id: e.target.value.toLowerCase().replace(/\s+/g, "-") })} placeholder="e.g. machine-learning" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Title</label>
+              <Input value={newCourseForm.title} onChange={(e) => setNewCourseForm({ ...newCourseForm, title: e.target.value })} placeholder="e.g. Machine Learning" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Description</label>
+              <Input value={newCourseForm.description} onChange={(e) => setNewCourseForm({ ...newCourseForm, description: e.target.value })} placeholder="Short course description" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Icon (Lucide icon name)</label>
+              <Input value={newCourseForm.icon} onChange={(e) => setNewCourseForm({ ...newCourseForm, icon: e.target.value })} placeholder="e.g. Brain, Cpu, Rocket" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Color gradient</label>
+              <Input value={newCourseForm.color} onChange={(e) => setNewCourseForm({ ...newCourseForm, color: e.target.value })} placeholder="e.g. from-blue-500 to-cyan-500" />
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => setShowCreateCourse(false)}>Cancel</Button>
+              <Button variant="hero" size="sm" onClick={createCourse}>
+                <Plus className="h-3 w-3 mr-1" /> Create
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
