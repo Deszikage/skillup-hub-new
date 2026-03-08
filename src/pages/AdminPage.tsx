@@ -443,6 +443,39 @@ const AdminPage = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Edit Lesson Dialog */}
+      <Dialog open={!!editLesson} onOpenChange={() => setEditLesson(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="font-display">Edit Lesson</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Title</label>
+              <Input value={editLessonForm.title} onChange={(e) => setEditLessonForm({ ...editLessonForm, title: e.target.value })} />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Duration</label>
+              <Input value={editLessonForm.duration} onChange={(e) => setEditLessonForm({ ...editLessonForm, duration: e.target.value })} placeholder="e.g. 15 min" />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">YouTube Video ID</label>
+              <Input value={editLessonForm.video_id} onChange={(e) => setEditLessonForm({ ...editLessonForm, video_id: e.target.value })} placeholder="e.g. dQw4w9WgXcQ" />
+            </div>
+            <div className="flex items-center gap-3">
+              <Switch checked={editLessonForm.is_free} onCheckedChange={(v) => setEditLessonForm({ ...editLessonForm, is_free: v })} />
+              <span className="text-sm">Free lesson</span>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <Button variant="outline" size="sm" onClick={() => setEditLesson(null)}>Cancel</Button>
+              <Button variant="hero" size="sm" onClick={saveLesson}>
+                <Save className="h-3 w-3 mr-1" /> Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
