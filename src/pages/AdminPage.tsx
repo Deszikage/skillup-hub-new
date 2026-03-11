@@ -8,10 +8,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+
 import { toast } from "sonner";
 import {
-  Users, CreditCard, BookOpen, Plus, Trash2, Edit3, Save, X, Shield,
+  Users, CreditCard, BookOpen, Plus, Trash2, Edit3, Save, X, Shield, ShoppingCart
 } from "lucide-react";
+import { StoreManager } from "@/components/StoreManager";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog";
@@ -20,7 +22,7 @@ const AdminPage = () => {
   const { user } = useAuth();
   const { isAdmin, isLoading } = useAdmin();
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<"users" | "subscriptions" | "courses">("users");
+  const [activeTab, setActiveTab] = useState<"users" | "subscriptions" | "courses" | "store">("users");
 
   // Fetch profiles
   const { data: profiles = [] } = useQuery({
@@ -245,6 +247,7 @@ const AdminPage = () => {
               { key: "users" as const, label: "Users", icon: Users },
               { key: "subscriptions" as const, label: "Subscriptions", icon: CreditCard },
               { key: "courses" as const, label: "Courses", icon: BookOpen },
+              { key: "store" as const, label: "Store", icon: ShoppingCart },
             ].map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
@@ -404,11 +407,19 @@ const AdminPage = () => {
                       setLessonDialog(course.id);
                       setLessonForm({ title: "", duration: "", is_free: false, video_id: "", sort_order: 0 });
                     }}
+
+                    
                   >
                     <Plus className="h-3 w-3 mr-1" /> Add Lesson
                   </Button>
                 </div>
               ))}
+            </div>
+          )}
+          {/* Store Tab */}
+          {activeTab === "store" && (
+            <div className="space-y-4">
+              <StoreManager />
             </div>
           )}
         </div>
@@ -549,5 +560,6 @@ const AdminPage = () => {
     </div>
   );
 };
+
 
 export default AdminPage;

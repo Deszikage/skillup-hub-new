@@ -18,6 +18,7 @@ import CookiePolicyPage from "./pages/CookiePolicyPage";
 import AuthPage from "./pages/AuthPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotFound from "./pages/NotFound";
+import StorePage from "./pages/StorePage";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/store" element={<StorePage />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>

@@ -111,7 +111,10 @@ const Navbar = () => {
             </Link>
             <a href="/#pricing" onClick={handlePricingClick} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Pricing
-            </a>
+               </a>
+               <Link to="/store" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+  Store
+</Link>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -167,6 +170,9 @@ const Navbar = () => {
             <Link to="/courses" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Courses</Link>
             <Link to="/practice" className="block text-sm text-muted-foreground hover:text-foreground" onClick={() => setOpen(false)}>Practice</Link>
             <a href="/#pricing" onClick={handlePricingClick} className="block text-sm text-muted-foreground hover:text-foreground">Pricing</a>
+            <Link to="/store" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+  Store
+</Link>
             {user ? (
               <>
                 <button

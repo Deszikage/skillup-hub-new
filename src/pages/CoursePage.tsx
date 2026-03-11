@@ -1,7 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Clock, Play, Lock, CheckCircle2, Award } from "lucide-react";
+import { ArrowLeft, Clock, Play, Lock, CheckCircle2, Award, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -106,6 +106,31 @@ const CoursePage = () => {
                       <span className="text-accent font-display text-xs">PRO</span>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* Previous / Next Navigation Buttons */}
+              {lessons.length > 0 && (
+                <div className="flex items-center justify-between mt-6 pt-6 border-t border-border">
+                  <Button
+                    variant="outline"
+                    onClick={() => setActiveLesson((prev) => prev - 1)}
+                    disabled={activeLesson === 0}
+                    className="gap-2"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Previous Lesson
+                  </Button>
+
+                  <Button
+                    variant="hero"
+                    onClick={() => setActiveLesson((prev) => prev + 1)}
+                    disabled={activeLesson === lessons.length - 1}
+                    className="gap-2"
+                  >
+                    Next Lesson
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
                 </div>
               )}
             </div>
